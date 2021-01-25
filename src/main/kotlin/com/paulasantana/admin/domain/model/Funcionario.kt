@@ -1,6 +1,5 @@
 package com.paulasantana.admin.domain.model
 
-import com.paulasantana.admin.domain.enum.TipoDocumento
 import javax.persistence.*
 
 @Entity
@@ -8,14 +7,44 @@ class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
+    private var id: Long? = null
 
     @Column(nullable = false)
-    var nome: String? = null
+    private var nome: String? = null
 
     @Column(nullable = false)
-    var documento: String? = null
+    private var documento: String? = null
 
     @Column(nullable = false)
-    var tipoDocumento: TipoDocumento? = null
+    private var tipoDocumento: String? = null
+
+    private constructor(id: Long?, nome: String?, documento: String?, tipoDocumento: String?) {
+        this.id = id
+        this.nome = nome
+        this.documento = documento
+        this.tipoDocumento = tipoDocumento
+    }
+
+    companion object {
+        fun createFuncionario(id:Long?, nome:String?, documento: String?, tipo: String?) : Funcionario{
+            return Funcionario(id, nome, documento, tipo.toString())
+        }
+    }
+
+    fun getId(): Long? {
+        return this.id
+    }
+
+    fun getNome(): String? {
+        return this.nome
+    }
+
+    fun getDocumento(): String? {
+      return this.documento
+    }
+
+    fun getTipoDocumento(): String? {
+        return this.getTipoDocumento()
+    }
+
 }
