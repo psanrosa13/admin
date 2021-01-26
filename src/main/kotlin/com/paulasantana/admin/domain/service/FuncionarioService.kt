@@ -4,6 +4,7 @@ import com.paulasantana.admin.application.view.FuncionarioView
 import com.paulasantana.admin.domain.exception.FuncionarioExistenteException
 import com.paulasantana.admin.domain.exception.FuncionarioNaoExisteException
 import com.paulasantana.admin.domain.model.Funcionario
+import com.paulasantana.admin.infraestructure.producer.FuncionarioProducer
 import com.paulasantana.admin.infraestructure.repository.FuncionarioRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -13,16 +14,21 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-class FuncionarioService(val funcionarioRepository: FuncionarioRepository) {
+class FuncionarioService(val funcionarioRepository: FuncionarioRepository,
+                         val funcionarioProducer: FuncionarioProducer) {
 
     fun criarNovoFuncionario(funcionario: Funcionario): Funcionario {
         if (existeFuncionario(funcionario))
             throw FuncionarioExistenteException()
 
-        return funcionarioRepository.save(funcionario)
+        val funcionario = funcionarioRepository.save(funcionario)
+
+        funcionarioProducer.sendEvent(funcionario)
+
+        return funcionario
     }
 
-    fun consultar(id: Long): Funcionario {
+    fun consultar(id: UUID): Funcionario {
         val funcionario: Optional<Funcionario> = funcionarioRepository.findById(id)
 
         if (funcionario.isPresent) return funcionario.get()
@@ -32,13 +38,13 @@ class FuncionarioService(val funcionarioRepository: FuncionarioRepository) {
     }
 
     private fun existeFuncionario(funcionario: Funcionario): Boolean {
-        if (funcionarioRepository.findByDocumento(funcionario) == null) {
+        if (funcionarioRepository.findByDocumento(funcionario.getDocumento()) == null) {
             return false
         }
         return true
     }
 
-    fun excluir(id: Long) {
+    fun excluir(id: UUID) {
         if (funcionarioRepository.existsById(id)) funcionarioRepository.deleteById(id)
 
         throw FuncionarioNaoExisteException()

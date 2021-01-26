@@ -7,8 +7,9 @@ import com.paulasantana.admin.domain.service.FuncionarioService
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
-@Controller
+@RestController
 @RequestMapping("funcionarios")
 class FuncionarioController(val service: FuncionarioService, val converter: FuncionarioConverter) {
 
@@ -20,12 +21,12 @@ class FuncionarioController(val service: FuncionarioService, val converter: Func
     }
 
     @GetMapping("/{id}")
-    fun consultar(@RequestParam("id") id: Long): FuncionarioView {
+    fun consultar(@PathVariable("id") id: UUID): FuncionarioView {
         return converter.toFuncionarioView(service.consultar(id))
     }
 
-    @DeleteMapping("/id")
-    fun excluir(@RequestParam("id") id: Long) = service.excluir(id)
+    @DeleteMapping("/{id}")
+    fun excluir(@PathVariable("id") id: UUID) = service.excluir(id)
 
     @GetMapping
     fun lista(@RequestParam(value="page", required = false, defaultValue = "0") page: Int,

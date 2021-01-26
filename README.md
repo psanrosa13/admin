@@ -7,12 +7,9 @@
 <!--ts-->
 * [Sobre](#Sobre)
 * [Features](#Features)
-* [Instalação](#instalacao)
+* [Subir localmente](##local)
 * [Como usar](#como-usar)
-    * [Pre Requisitos](#pre-requisitos)
-    * [Local files](#local-files)
-    * [Remote files](#remote-files)
-* [Tests](#testes)
+* [Testes](#testes)
 * [Tecnologias](#tecnologias)
 <!--te-->
 
@@ -23,3 +20,12 @@
 - [ ] Alterar dados do Funcionário
 - [ ] Excluir do Funcionário
 - [ ] Listagem do Funcionário
+
+##Subir localmente
+
+Execute o comando abaixo para subir o Kafka Localmente
+
+`docker-compose up -d`
+
+Para acessar O KafkaDrop acesse:
+`http://localhost:19000`

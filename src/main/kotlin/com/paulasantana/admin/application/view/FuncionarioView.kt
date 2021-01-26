@@ -1,9 +1,11 @@
 package com.paulasantana.admin.application.view
 
-data class FuncionarioView(
-    val id: Long?,
-    val nome: String?,
-    val documento: String?,
-    val tipoDocumento: String?
+import com.paulasantana.admin.domain.enum.TipoDocumento
+import java.util.*
 
+data class FuncionarioView(
+    val id: UUID? = null,
+    val nome: String = "",
+    val documento: String = "",
+    val tipoDocumento: TipoDocumento = TipoDocumento.CPF
 )

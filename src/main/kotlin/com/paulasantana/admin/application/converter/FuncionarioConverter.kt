@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class FuncionarioConverter {
 
     public fun toFuncionario(view: FuncionarioView) : Funcionario {
-        return Funcionario.createFuncionario(view.id, view.nome, view.documento, view.tipoDocumento)
+        return Funcionario.createFuncionario(view.nome, view.documento, view.tipoDocumento)
     }
 
     public fun toFuncionarioView(funcionario: Funcionario) : FuncionarioView {
