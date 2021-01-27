@@ -8,7 +8,6 @@ import javax.persistence.*
 class Funcionario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private var id: UUID
 
     @Column(nullable = false)
@@ -46,7 +45,7 @@ class Funcionario {
     }
 
     fun getTipoDocumento(): TipoDocumento{
-        return this.getTipoDocumento()
+        return this.tipoDocumento
     }
 
 }

@@ -29,3 +29,6 @@ Execute o comando abaixo para subir o Kafka Localmente
 
 Para acessar O KafkaDrop acesse:
 `http://localhost:19000`
+
+Para acessar a interface do banco H2 acesse:
+`ocalhost:8080/h2`
