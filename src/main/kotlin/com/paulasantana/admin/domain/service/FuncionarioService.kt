@@ -21,6 +21,8 @@ class FuncionarioService(val funcionarioRepository: FuncionarioRepository,
         if (existeFuncionario(funcionario))
             throw FuncionarioExistenteException()
 
+        funcionario.id = UUID.randomUUID()
+
         val funcionario = funcionarioRepository.save(funcionario)
 
         funcionarioProducer.sendEvent(funcionario)
@@ -38,7 +40,7 @@ class FuncionarioService(val funcionarioRepository: FuncionarioRepository,
     }
 
     private fun existeFuncionario(funcionario: Funcionario): Boolean {
-        if (funcionarioRepository.findByDocumento(funcionario.getDocumento()) == null) {
+        if (funcionarioRepository.findByDocumento(funcionario.documento) == null) {
             return false
         }
         return true

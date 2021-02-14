@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 plugins {
 	id("org.springframework.boot") version "2.4.1"
 	id("io.spring.dependency-management") version "1.0.10.RELEASE"
@@ -23,9 +24,33 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.kafka:spring-kafka:2.6.5")
-	runtimeOnly("com.h2database:h2")
+	implementation("io.springfox:springfox-swagger2:2.9.2")
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
+	implementation("org.flywaydb:flyway-core")
+	implementation(kotlin("script-runtime"))
+	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation(kotlin("script-runtime"))
+	testImplementation("org.springframework.kafka:spring-kafka-test")
+  	testImplementation("org.testcontainers:testcontainers:1.15.1")
+	testImplementation("com.ninja-squad:springmockk:2.0.0")
+	testImplementation("io.mockk:mockk:1.10.0")
+	testImplementation("org.testcontainers:postgresql:1.15.1")
+}
+sourceSets {
+	create("integrationTest") {
+		kotlin {
+			compileClasspath += main.get().output + configurations.testRuntimeClasspath
+			runtimeClasspath += output + compileClasspath
+		}
+	}
+}
+
+val integrationTest = task<Test>("integrationTest") {
+	description = "Runs the integration tests"
+	group = "verification"
+	testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+	classpath = sourceSets["integrationTest"].runtimeClasspath
+	mustRunAfter(tasks["test"])
 }
 
 tasks.withType<KotlinCompile> {
@@ -38,3 +63,4 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+

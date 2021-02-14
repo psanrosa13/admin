@@ -5,15 +5,17 @@ import com.paulasantana.admin.application.view.FuncionarioView
 import com.paulasantana.admin.domain.model.Funcionario
 import com.paulasantana.admin.domain.service.FuncionarioService
 import org.springframework.data.domain.Page
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("funcionarios")
+@RequestMapping("/funcionarios")
 class FuncionarioController(val service: FuncionarioService, val converter: FuncionarioConverter) {
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     fun incluir(@RequestBody view: FuncionarioView): FuncionarioView {
         val funcionario = converter.toFuncionario(view)
 
